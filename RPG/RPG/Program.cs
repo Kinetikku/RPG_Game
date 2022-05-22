@@ -9,6 +9,9 @@ namespace RPG
     {
         static void Main(string[] args)
         {
+            GameCharacter rando = new GameCharacter();
+            Food apple = new Food(0, "apple", ItemRarity.Uncommon, 2, 1, .2, 100, FoodState.Fresh, 52);
+
             Game game = new Game();
             game.run();
         }

@@ -55,7 +55,7 @@ namespace RPG
         public FoodState FoodState{
 
             get { return _foodState; }
-            set{
+            set {
 
                 if (value == FoodState.Fresh)
                     _foodState = value;
@@ -77,11 +77,9 @@ namespace RPG
        public int Calories{   
             
             get { return _calories; }
-            set{   
-                if((value <=-1000) && (value <=1000))
-                
+            set {   
+                if((value >=-1000) && (value <=1000))
                     _calories = value;   
-            
             }
        }
 
@@ -116,32 +114,23 @@ namespace RPG
         /// and the total weight of the item of food.</c>
         /// </summary>
         /// <returns>A double representing to total calorie content of the food item </returns>
-        public double GetTotalCalories(FoodState FoodState, int calories){
-            
-            double fState = 0;
-            
-            if(FoodState == FoodState.Fresh)
+        public static double GetTotalCalories(FoodState FoodState, int calories){
+            double _allCals, fState;
 
+            if (FoodState == FoodState.Fresh)
                 fState = 1;
-
-            else if(FoodState == FoodState.Stale)
+            else if (FoodState == FoodState.Stale)
                 fState = 0.6;
-
-            else if(FoodState == FoodState.Mouldy)
+            else if (FoodState == FoodState.Mouldy)
                 fState = 0.4;
-
-            else if(FoodState == FoodState.Rotten)
+            else if (FoodState == FoodState.Rotten)
                 fState = 0.1;
-
             else
-                throw new NotImplementedException();
-
-             double _allCals = 0;
-            _allCals = (fState * Calories);
+                throw new ArgumentException();
+             
+            _allCals = (fState * calories);
 
             return _allCals;
-
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -156,9 +145,6 @@ namespace RPG
             return ItemName + "|" + "State:" + FoodState + "|" + "Total Calories:" + Calories +
                    "|" + "Rarity:" + ItemRarity + "|" + "Magical Power:" + ItemMagicalPower + "|" + 
                     "Value:" + ItemSellValue + "|" + "Weight:" + ItemWeight;
-
-            throw new NotImplementedException();
-
         }
    
     }

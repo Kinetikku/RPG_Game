@@ -36,6 +36,7 @@ namespace RPG
         private List<Item> inventoryItems = new List<Item>();
         // List that will keep track of equiped weapons.
         List<Weapon> equipedWeapons = new List<Weapon>();
+        List<Armour> equipedArmour = new List<Armour>();
 
         // Static field recording the number of game characters
         private static int s_numberOfCharacters = 0;
@@ -274,7 +275,9 @@ namespace RPG
         /// <returns>A string formatted as described above.</returns>
         /// 
         public string Attack(GameCharacter character)
-        {      
+        {
+            this.CharacterState = CharacterState.Attacking;
+
             if (equipedWeapons.Count() == 1)
                 return $"{this.Name} is attacking {character.Name} with a {equipedWeapons[0].ItemName}";
             else if (equipedWeapons.Count() == 2)           
@@ -336,8 +339,10 @@ namespace RPG
         {
             if (inventoryItems[inventoryIndex] is Food && inventoryIndex < inventoryItems.Count())
             {
+                inventoryFood.Add((Food) inventoryItems[inventoryIndex]);
+
                 this.CharacterState = CharacterState.Eating;
-                if (this.Health + (52 / 25) > 100)
+                if (this.Health + (Food.GetTotalCalories(inventoryFood[inventoryIndex].FoodState, inventoryFood[inventoryIndex].Calories) / 25) > 100)
                     this.Health = 100;
                 if (this.Stamina + (52 / 25) > 100)
                     this.Stamina = 100;
@@ -347,6 +352,7 @@ namespace RPG
                     this.Stamina += (52 / 25);
 
                 inventoryItems.RemoveAt(inventoryIndex);
+                inventoryFood.Clear();
                 return true;
             }
             else
@@ -438,8 +444,23 @@ namespace RPG
         /// <returns>True if the item at armourIndex is put on by the character, otherwise false.</returns>
         public bool WearArmour(int armourIndex)
         {
-            // TO DO - add your implementation
-            throw new NotImplementedException();
+            if (armourIndex < inventoryItems.Count() && inventoryItems[armourIndex] is Weapon)
+            {
+                Armour currentArmour = (Armour)inventoryItems[armourIndex];
+
+                if (!currentArmour.Equipped)
+                {
+                    currentArmour.Equipped = true;
+
+                    inventoryItems[armourIndex] = currentArmour;
+                    equipedArmour.Add(currentArmour);
+                    return true;
+                }
+
+                return false;
+            }
+            else
+                return false;
         }
 
         /// <summary>
@@ -450,8 +471,22 @@ namespace RPG
         /// <returns>True if the item at armourIndex is removed by the character, otherwise false.</returns>
         public bool RemoveArmour(int armourIndex)
         {
-            // TO DO - add your implementation
-            throw new NotImplementedException();
+            if (armourIndex < inventoryItems.Count() && inventoryItems[armourIndex] is Armour)
+            {
+                Armour _currentArmour = (Armour)inventoryItems[armourIndex];
+
+                if (equipedArmour.Contains(_currentArmour))
+                {
+                    _currentArmour.Equipped = false;
+                    equipedArmour.Remove(_currentArmour);
+                    inventoryItems[armourIndex] = _currentArmour;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
         }
 
         /// <summary>
