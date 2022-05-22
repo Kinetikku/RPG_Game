@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RPG": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Work\\College\\CommercialRPGGame\\cp1-ca2-21-22-cpteam5\\RPG\\RPG\\bin\\Debug\\net6.0"
+    }
+  }
+}

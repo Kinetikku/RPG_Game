@@ -1,0 +1,55 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RPG;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RPG.Tests
+{
+    [TestClass()]
+    public class GameCharacterTests
+    {
+        [TestMethod()]
+        public void TestAttackSkill()
+        {
+            GameCharacter test1 = new GameCharacter();
+            Assert.ThrowsException<ArgumentException>(() => test1.AttackSkill = 101);
+        }
+
+        [TestMethod()]
+        public void TestAttackString()
+        {
+            GameCharacter test1 = new GameCharacter();
+            GameCharacter test2 = new GameCharacter();
+            test1.Name = "Lord Percival";
+            test2.Name = "Lord Blackader";
+            String expectedString = "Lord Percival is attacking Lord Blackader bare handed.";
+            String actualString = test1.Attack(test2);
+            Assert.AreEqual(expectedString, actualString);
+
+        }
+
+        [TestMethod()]
+        public void TestResting()
+        {
+            GameCharacter test1 = new GameCharacter();
+            test1.Stamina = 100;
+            Assert.ThrowsException<ArgumentException>(() => test1.Rest());
+        }
+        //[TestMethod()]
+        // public void TestWeightOfItemsException()
+        //{
+        //     GameCharacter test1 = new GameCharacter();
+        //    test1.WeightLimit = 0;
+        //     Assert.ThrowsException<ArgumentException>(() => test1.TotalWeightOfItems = 100000);
+        // }
+
+        
+       
+
+
+
+    }
+}
